@@ -1,0 +1,80 @@
+<ion-content [fullscreen]="true">
+  <div class="header-image">
+    <img class="fit-image" src="assets/images/headerImage.jpg">
+    <div class="title">Discover the world’s best photos & videos<br>
+      <span class="sub-title">Best memories online</span>
+    </div>
+    <div class="search-box">
+      <ion-item class="search-field ion-margin-vertical">
+        <ion-input placeholder="Search photos, videos, artists" [(ngModel)]="searchVal" (ionChange)="search()">
+        </ion-input>
+        <ion-icon slot="start" name="search-outline"></ion-icon>
+      </ion-item>
+    </div>
+
+  </div>
+  <ion-row class="tabs ion-justify-content-between">
+    <ion-col [class.selected-tab]="tab=='photoes'" size="auto" (click)="selectedTab('photoes')">Photos</ion-col>
+    <ion-col [class.selected-tab]="tab=='videos'" size="auto" (click)="selectedTab('videos')">Videos</ion-col>
+    <ion-col [class.selected-tab]="tab=='favourite'" size="auto" (click)="selectedTab('favourite')">Favorites</ion-col>
+  </ion-row>
+
+
+  <div id="container">
+    <ng-container *ngIf="tab=='photoes'">
+      <div class="img-card" *ngFor="let item of images">
+        <div class="fav">
+          <img *ngIf="item.isFav" src="assets/icon/fav.png" (click)="setFavourite(item)">
+          <img *ngIf="!item.isFav" src="assets/icon/not-fav.png" (click)="setFavourite(item)">
+        </div>
+        <img (click)="openViewer(item)" [src]="item.image">
+        <div class="p-container">
+          <div class="p-image"> <img src="assets/images/photographers-image.png"></div>
+          <div class="p-name">{{item.pName}}</div>
+        </div>
+      </div>
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ng-container>
+
+    <ng-container *ngIf="tab=='videos'">
+      <div class="img-card" *ngFor="let item of videos">
+        <div class="fav">
+          <img *ngIf="item.isFav" src="assets/icon/fav.png" (click)="setFavourite(item)">
+          <img *ngIf="!item.isFav" src="assets/icon/not-fav.png" (click)="setFavourite(item)">
+        </div>
+        <img [src]="item.image">
+        <div class="play-icon" (click)="playVideo(item)">
+          <img src="assets/icon/play-icon.png">
+        </div>
+        <div class="p-container">
+          <div class="p-image"> <img src="assets/images/photographers-image.png"></div>
+          <div class="p-name">{{item.pName}}</div>
+        </div>
+      </div>
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ng-container>
+
+    <ng-container *ngIf="tab=='favourite'">
+      <div class="img-card" *ngFor="let item of favouriteList">
+        <div class="fav" (click)="remFavourite(item)">
+          <img src="assets/icon/fav.png">
+        </div>
+        <img (click)="openViewer(item)"  [src]="item.image">
+        <div *ngIf="item.type=='videos'" class="play-icon"  (click)="playVideo(item)">
+          <img src="assets/icon/play-icon.png">
+        </div>
+        <div class="p-container">
+          <div class="p-image"> <img src="assets/images/photographers-image.png"></div>
+          <div class="p-name">{{item.pName}}</div>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+</ion-content>

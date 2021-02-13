@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Video
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-row class="header ion-justify-content-between" >
+    <ion-col size="auto">{{selectedItem.pName}}</ion-col>
+    <ion-col size="auto">
+      <img *ngIf="selectedItem.isFav" src="assets/icon/fav.png">
+      <img *ngIf="!selectedItem.isFav" src="assets/icon/not-fav.png">
+    </ion-col>
+  </ion-row>
+  <div class="video-container">
+    <video width="400" controls>
+      <source [src]="selectedItem.videoLink" type="video/mp4">
+      Your browser does not support HTML video.
+    </video>
+  </div>
+</ion-content>
